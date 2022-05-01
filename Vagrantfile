@@ -55,6 +55,10 @@ Vagrant.configure("2") do |config|
 
     # Customize the amount of memory on the VM:
     vb.memory = "1024"
+
+
+    # keyboard/mouse input doesn't work without this
+    vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
   end
   #
   # View the documentation for the provider you are using for more
@@ -64,12 +68,25 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
+    # dnf group install -y gnome # this might work and might be smaller
     dnf group install -y workstation-product-environment
     dnf install -y virtualbox-guest-additions
+
+
+    ## auto login as vagrant user
+    # not sure if these were necessary
+    systemctl enable gdm.service
+    systemctl set-default graphical.target
+    # TODO: skip if already present
+    sudo sed -i 's/^\[daemon]$/[daemon]\nAutomaticLoginEnable=True\nAutomaticLogin=vagrant\n/' /etc/gdm/custom.conf
+
+    ## alternatively, don't boot to graphical. may not be needed on fresh provision.
+    # haven't figured out how to start gnome session from ssh (either x or wayland) so this is useless for now.
+    # systemctl set-default multi-user.target
+
     # not sure yet if we want these
     # dnf group install -y development-tools gnome-software-development
-    # systemctl enable gdm.service
-    # systemctl set-default graphical.target
+
     # https://unix.stackexchange.com/questions/137440/how-to-open-fedora-without-a-user-password
   SHELL
 
