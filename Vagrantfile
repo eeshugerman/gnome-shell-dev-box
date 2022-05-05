@@ -68,9 +68,14 @@ Vagrant.configure("2") do |config|
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    # dnf group install -y gnome # this might work and might be smaller
-    dnf group install -y workstation-product-environment
-    dnf install -y virtualbox-guest-additions
+    set -ux
+    set -o pipefail
+
+    dnf group install -y gnome gnome-software-development
+    dnf install -y \
+      virtualbox-guest-additions \
+      meson \
+      gjs # wah
 
 
     ## auto login as vagrant user
@@ -78,21 +83,21 @@ Vagrant.configure("2") do |config|
     systemctl enable gdm.service
     systemctl set-default graphical.target
     # TODO: skip if already present
-    sudo sed -i 's/^\[daemon]$/[daemon]\nAutomaticLoginEnable=True\nAutomaticLogin=vagrant\n/' /etc/gdm/custom.conf
+    sed -i 's/^\\[daemon]$/[daemon]\\nAutomaticLoginEnable=True\\nAutomaticLogin=vagrant\\n/' /etc/gdm/custom.conf
+
+    # sudo reboot
 
     ## alternatively, don't boot to graphical. may not be needed on fresh provision.
     # haven't figured out how to start gnome session from ssh (either x or wayland) so this is useless for now.
     # systemctl set-default multi-user.target
 
-    # not sure yet if we want these
-    # dnf group install -y development-tools gnome-software-development
 
     # https://unix.stackexchange.com/questions/137440/how-to-open-fedora-without-a-user-password
   SHELL
 
-  config.trigger.after [:provision] do |t|
-    t.name = "Reboot after provisioning"
-    t.run = { :inline => "vagrant reload" }
-  end
+  # config.trigger.after [:provision] do |t|
+  #   t.name = "Reboot after provisioning"
+  #   t.run = { :inline => "vagrant reload" }
+  # end
 
 end
