@@ -67,37 +67,10 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
-    set -ux
-    set -o pipefail
+  config.vm.provision "shell", path: "provision.sh"
 
-    dnf group install -y gnome gnome-software-development
-    dnf install -y \
-      virtualbox-guest-additions \
-      meson \
-      gjs # wah
-
-
-    ## auto login as vagrant user
-    # not sure if these were necessary
-    systemctl enable gdm.service
-    systemctl set-default graphical.target
-    # TODO: skip if already present
-    sed -i 's/^\\[daemon]$/[daemon]\\nAutomaticLoginEnable=True\\nAutomaticLogin=vagrant\\n/' /etc/gdm/custom.conf
-
-    # sudo reboot
-
-    ## alternatively, don't boot to graphical. may not be needed on fresh provision.
-    # haven't figured out how to start gnome session from ssh (either x or wayland) so this is useless for now.
-    # systemctl set-default multi-user.target
-
-
-    # https://unix.stackexchange.com/questions/137440/how-to-open-fedora-without-a-user-password
-  SHELL
-
-  # config.trigger.after [:provision] do |t|
-  #   t.name = "Reboot after provisioning"
-  #   t.run = { :inline => "vagrant reload" }
-  # end
-
+  config.vm.post_up_message = <<-TEXT
+    Welcome to your GNOME Shell development box!
+    If this was the initial provision of this box, run `vagrant reload` to reboot into GNOME Shell.
+  TEXT
 end
