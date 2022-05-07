@@ -75,4 +75,5 @@ Vagrant.configure("2") do |config|
     Welcome to your GNOME Shell development box!
     If this was the initial provision of this box, run `vagrant reload` to reboot into GNOME Shell.
   TEXT
+
 end

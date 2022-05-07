@@ -9,10 +9,9 @@ sudo systemctl set-default graphical.target
 # auto login as vagrant user
 # partially untested
 if ! grep -Fxq 'AutomaticLoginEnable=True' /etc/gdm/custom.conf; then
-    sudo sed 's/^\[daemon]$/[daemon]\nAutomaticLoginEnable=True\nAutomaticLogin=vagrant\n/' /etc/gdm/custom.conf
+    sudo sed -i 's/^\[daemon]$/[daemon]\nAutomaticLoginEnable=True\nAutomaticLogin=vagrant\n/' /etc/gdm/custom.conf
 fi
 
-# might not need c-development
 sudo dnf group install -y gnome c-development gnome-software-development
 sudo dnf install -y \
      meson \
@@ -26,3 +25,9 @@ sudo dnf install -y \
      rust-libpulse-sys+pa_v12-devel \
      gtk4-devel \
      sassc
+
+mkdir -p src/gnome-shell/build
+cd src/gnome-shell/build
+meson --buildtype=debug --prefix=/usr ..
+ninja
+sudo ninja install
