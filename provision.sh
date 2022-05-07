@@ -1,16 +1,30 @@
 set -eux
 set -o pipefail
 
-sudo dnf group install -y gnome gnome-software-development
-sudo dnf install -y virtualbox-guest-additions meson
-
-
-## auto login as vagrant user
+sudo dnf install -y virtualbox-guest-additions
+sudo dnf group install -y gnome
 # not sure if these were necessary
 sudo systemctl enable gdm.service
 sudo systemctl set-default graphical.target
+# auto login as vagrant user
 # TODO: skip if already present
 sudo sed -i 's/^\\[daemon]$/[daemon]\\nAutomaticLoginEnable=True\\nAutomaticLogin=vagrant\\n/' /etc/gdm/custom.conf
+
+# might not need c-development
+sudo dnf group install -y gnome c-development gnome-software-development
+sudo dnf install -y \
+     meson \
+     gjs-devel \
+     mutter-devel \
+     polkit-devel \
+     startup-notification-devel \
+     ibus-devel \
+     pipewire-devel
+     # mozjs78-devel \
+     # gsettings-desktop-schemas-devel \
+     # glib2-devel
+
+
 
 
 ## alternatively, don't boot to graphical. may not be needed on fresh provision.

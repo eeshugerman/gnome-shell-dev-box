@@ -46,12 +46,6 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "../gnome-shell", "/home/vagrant/src/gnome-shell",
                           owner: "vagrant", group: "vagrant" # doesn't work with virtualbox?
 
-  config.vm.synced_folder "./gsettings-desktop-schemas", "/home/vagrant/src/gsettings-desktop-schemas"
-  config.vm.synced_folder "./libgweather", "/home/vagrant/src/libgweather"
-  config.vm.synced_folder "./gjs", "/home/vagrant/src/gjs"
-  config.vm.synced_folder "./glib", "/home/vagrant/src/glib"
-  config.vm.synced_folder "./mutter", "/home/vagrant/src/mutter"
-
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
