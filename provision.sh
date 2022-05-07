@@ -7,8 +7,10 @@ sudo dnf group install -y gnome
 sudo systemctl enable gdm.service
 sudo systemctl set-default graphical.target
 # auto login as vagrant user
-# TODO: skip if already present
-sudo sed -i 's/^\[daemon]$/[daemon]\nAutomaticLoginEnable=True\nAutomaticLogin=vagrant\n/' /etc/gdm/custom.conf
+# partially untested
+if ! grep -Fxq 'AutomaticLoginEnable=True' /etc/gdm/custom.conf; then
+    sudo sed 's/^\[daemon]$/[daemon]\nAutomaticLoginEnable=True\nAutomaticLogin=vagrant\n/' /etc/gdm/custom.conf
+fi
 
 # might not need c-development
 sudo dnf group install -y gnome c-development gnome-software-development
