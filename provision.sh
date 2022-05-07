@@ -18,20 +18,19 @@ sudo sed -i 's/^\\[daemon]$/[daemon]\\nAutomaticLoginEnable=True\\nAutomaticLogi
 # systemctl set-default multi-user.target
 
 # based on https://gitlab.gnome.org/GNOME/gnome-shell/-/snippets/1515
-gnome_libs='gsettings-desktop-schemas libgweather gjs glib mutter'
-freedesktop_libs='pipewire'
+# gnome_libs='gsettings-desktop-schemas libgweather gjs glib mutter'
+# gnome_libs='gsettings-desktop-schemas gjs glib mutter'
+# freedesktop_libs='pipewire'
 
-sudo chown $USER $HOME/src
+# sudo chown $USER $HOME/src
 
-for lib in $gnome_libs; do
-    lib_dir="$HOME/src/$lib"
-    if [ -d $lib_dir ]; then
-        cd $lib_dir
-        git pull
-    else
-        git clone "https://gitlab.gnome.org/GNOME/$lib" $lib_dir
-        cd $lib_dir
-    fi
-    meson --prefix=/usr build
-    sudo ninja -C build install -j1
-done
+# for lib in $gnome_libs; do
+#     lib_dir="$HOME/src/$lib"
+#     # if [! -d $lib_dir ]; then
+#     #     git clone -b 41.0 "https://gitlab.gnome.org/GNOME/$lib" $lib_dir
+#     #     cd $lib_dir
+#     # fi
+#     cd $lib_dir
+#     meson --prefix=/usr build
+#     sudo ninja -C build install -j1
+# done

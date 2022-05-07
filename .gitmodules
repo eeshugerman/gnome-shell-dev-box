@@ -1,15 +1,16 @@
-# [submodule "gsettings-desktop-schemas"]
-# 	path = gsettings-desktop-schemas
-# 	url = git@gitlab.gnome.org:GNOME/gsettings-desktop-schemas.git
-# [submodule "libgweather"]
-# 	path = libgweather
-# 	url = git@gitlab.gnome.org:GNOME/libgweather.git
-# [submodule "gjs"]
-# 	path = gjs
-# 	url = git@gitlab.gnome.org:GNOME/gjs.git
-# [submodule "glib"]
-# 	path = glib
-# 	url = git@gitlab.gnome.org:GNOME/glib.git
-# [submodule "mutter"]
-# 	path = mutter
-# 	url = git@gitlab.gnome.org:GNOME/mutter.git
+[submodule "gsettings-desktop-schemas"]
+	path = gsettings-desktop-schemas
+	url = git@gitlab.gnome.org:GNOME/gsettings-desktop-schemas.git
+# do we actually need this?
+[submodule "libgweather"]
+	path = libgweather
+	url = git@gitlab.gnome.org:GNOME/libgweather.git
+[submodule "gjs"]
+	path = gjs
+	url = git@gitlab.gnome.org:GNOME/gjs.git
+[submodule "glib"]
+	path = glib
+	url = git@gitlab.gnome.org:GNOME/glib.git
+[submodule "mutter"]
+	path = mutter
+	url = git@gitlab.gnome.org:GNOME/mutter.git
