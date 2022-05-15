@@ -24,7 +24,9 @@ sudo dnf install -y \
      NetworkManager-libnm-devel \
      rust-libpulse-sys+pa_v12-devel \
      gtk4-devel \
-     sassc
+     gnome-autoar-devel \
+     sassc \
+     asciidoc
 
 mkdir -p src/gnome-shell/build
 cd src/gnome-shell/build
