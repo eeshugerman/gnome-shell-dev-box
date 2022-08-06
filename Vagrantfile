@@ -73,7 +73,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.post_up_message = <<-TEXT
     Welcome to your GNOME Shell development box!
-    If this was the initial provision of this box, run `vagrant reload` to reboot into GNOME Shell.
+    From TTY, login with vagrant/vagrant, then run `gnome-shell --wayland &> log.txt`
+    To kill, switch TTY with <host>-F2 (where <host> is probably right ctrl), then do `pkill gnome-shell`.
   TEXT
 
 end

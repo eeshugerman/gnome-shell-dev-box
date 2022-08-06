@@ -2,15 +2,6 @@ set -eux
 set -o pipefail
 
 sudo dnf install -y virtualbox-guest-additions
-sudo dnf group install -y gnome
-# not sure if these were necessary
-sudo systemctl enable gdm.service
-sudo systemctl set-default graphical.target
-# auto login as vagrant user
-# partially untested
-if ! grep -Fxq 'AutomaticLoginEnable=True' /etc/gdm/custom.conf; then
-    sudo sed -i 's/^\[daemon]$/[daemon]\nAutomaticLoginEnable=True\nAutomaticLogin=vagrant\n/' /etc/gdm/custom.conf
-fi
 
 sudo dnf group install -y gnome c-development gnome-software-development
 sudo dnf install -y \
@@ -27,6 +18,13 @@ sudo dnf install -y \
      gnome-autoar-devel \
      sassc \
      asciidoc
+
+# partially untested
+# might be unnecessary with tty approach
+if ! grep -Fxq 'AutomaticLoginEnable=True' /etc/gdm/custom.conf; then
+    sudo sed -i 's/^\[daemon]$/[daemon]\nAutomaticLoginEnable=True\nAutomaticLogin=vagrant\n/' /etc/gdm/custom.conf
+fi
+
 
 mkdir -p src/gnome-shell/build
 cd src/gnome-shell/build
