@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+mkdir -p src/gnome-shell/build
+cd src/gnome-shell/build
+meson --buildtype=debug --prefix=/usr ..
+ninja
+sudo ninja install

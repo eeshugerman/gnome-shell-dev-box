@@ -44,6 +44,8 @@ Vagrant.configure("2") do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "../gnome-shell", "/home/vagrant/src/gnome-shell" #, owner: "vagrant", group: "vagrant" # doesn't work with virtualbox?
+  config.vm.synced_folder "./log/", "/home/vagrant/log"
+  config.vm.synced_folder "./bin/", "/home/vagrant/bin"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -56,9 +58,11 @@ Vagrant.configure("2") do |config|
     # Customize the amount of memory on the VM:
     vb.memory = "4096"
 
-
     # keyboard/mouse input doesn't work without this
     vb.customize ['modifyvm', :id, '--graphicscontroller', 'vmsvga']
+
+    # the default of 16MB is on the low end
+    vb.customize ["modifyvm", :id, "--vram", "64"]
   end
   #
   # View the documentation for the provider you are using for more
@@ -73,8 +77,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.post_up_message = <<-TEXT
     Welcome to your GNOME Shell development box!
-    From TTY, login with vagrant/vagrant, then run `gnome-shell --wayland &> log.txt`
-    To kill, switch TTY with <host>-F2 (where <host> is probably right ctrl), then do `pkill gnome-shell`.
+    From TTY, login with vagrant/vagrant, then run `bin/start`
+    To kill, switch TTY with <host>-F2 (where <host> is probably right ctrl), then do `bin/stop`.
   TEXT
 
 end

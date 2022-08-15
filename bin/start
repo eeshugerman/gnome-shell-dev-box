@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+gnome-shell --wayland &> log/log.txt
